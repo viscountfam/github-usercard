@@ -7,7 +7,7 @@ axios.get("https://api.github.com/users/viscountfam")
   .then(response => {
     console.log(response);
     cards.appendChild(CardMaker(response.data));
-  })
+  });
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -37,7 +37,8 @@ const followersArray = [
   'johnnweke',
   'aaronjan98',
   'asbaden',
-  'damonbogich'
+  'damonbogich',
+  'informagician'
 ];
 followersArray.forEach(item =>{
  axios.get( `https://api.github.com/users/${item}`)
@@ -79,8 +80,9 @@ function CardMaker(data) {
     address = document.createElement('a'),
     followers = document.createElement('p'),
     following = document.createElement('p'),
-    bio = document.createElement('p');
-  
+    bio = document.createElement('p'),
+    githubChart = document.createElement('img'),
+    githubDiv = document.createElement('div');
 
     //add text content
     profilepic.src = data.avatar_url;
@@ -91,6 +93,8 @@ function CardMaker(data) {
     followers.textContent = `Followers: ${data.followers}`;
     following.textContent = `Following: ${data.following}`;
     bio.textContent = data.bio;
+    githubChart.src = `http://ghchart.rshah.org/${data.login}`;
+    githubChart.alt = `${name}'s GitHub chart`;
 
     //add classes
     card.classList.add("card");
@@ -98,9 +102,15 @@ function CardMaker(data) {
     name.classList.add("name");
     username.classList.add("username");
 
+    //add styles 
+    githubDiv.style.margin = "0px 40px"
+    githubChart.style.width = "100%";
+    githubChart.style.objectFit = "scale-down";
+
     //append the children
     card.appendChild(profilepic);
     card.appendChild(cardinfo);
+    card.appendChild(githubDiv);
     cardinfo.appendChild(name);
     cardinfo.appendChild(username);
     cardinfo.appendChild(location);
@@ -108,6 +118,7 @@ function CardMaker(data) {
     profile.appendChild(address);
     cardinfo.appendChild(followers);
     cardinfo.appendChild(following);
+    githubDiv.appendChild(githubChart);
     
     return card;
 }
