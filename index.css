@@ -123,5 +123,25 @@ body {
   margin: 3px 0 10px;
 }
 
+.btnbar button {
+  cursor: pointer;
+  background: #2cb5e8;
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.hide-btn {
+  display: none;
+}
+
+.toggle-on {
+  display: block;
+}
+
+
+
 
 
