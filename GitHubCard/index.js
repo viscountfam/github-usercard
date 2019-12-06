@@ -5,7 +5,7 @@
 const cards = document.querySelector(".cards");
 axios.get("https://api.github.com/users/viscountfam")
   .then(response => {
-    console.log(response);
+    // console.log(response);
     cards.appendChild(CardMaker(response.data));
   });
 
@@ -40,14 +40,14 @@ const followersArray = [
   'damonbogich',
   'informagician'
 ];
-followersArray.forEach(item =>{
- axios.get( `https://api.github.com/users/${item}`)
-  .then(res => {
-    console.log(item);
-    cards.appendChild(CardMaker(res.data));
-  });
+// followersArray.forEach(item =>{
+//  axios.get( `https://api.github.com/users/${item}`)
+//   .then(res => {
+//     console.log(item);
+//     cards.appendChild(CardMaker(res.data));
+//   });
   
-})
+// })
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -82,7 +82,10 @@ function CardMaker(data) {
     following = document.createElement('p'),
     bio = document.createElement('p'),
     githubChart = document.createElement('img'),
-    githubDiv = document.createElement('div');
+    githubDiv = document.createElement('div'),
+    closebtn = document.createElement('button'),
+    openbtn = document.createElement('button'),
+    btnbar = document.createElement('div');
 
     //add text content
     profilepic.src = data.avatar_url;
@@ -95,6 +98,9 @@ function CardMaker(data) {
     bio.textContent = data.bio;
     githubChart.src = `http://ghchart.rshah.org/${data.login}`;
     githubChart.alt = `${name}'s GitHub chart`;
+    openbtn.textContent = "11166U+2b9e";
+    closebtn.textContent = "11164U+2b9c";
+
 
     //add classes
     card.classList.add("card");
@@ -129,3 +135,19 @@ function CardMaker(data) {
   luishrd
   bigknell
 */
+
+axios.get('https://api.github.com/users/viscountfam/followers')
+  .then(response => {
+    console.log(response);
+    //for each object in the array
+    response.data.forEach(item => {
+      axios.get( `https://api.github.com/users/${item.login}`)
+    .then(res => {
+     console.log(item);
+     cards.appendChild(CardMaker(res.data));
+   });
+    })
+  })
+  .catch (err => {
+    console.log(err);
+  })
